@@ -98,7 +98,8 @@ http {
 			proxy_set_header Connection "upgrade";
 			{{ end }}
 
-			proxy_pass http://{{$data.clusterIP}}:{{$data.spec.ports[0].port}};
+      {{ $port := index $data "spec" "ports" 0 "port" }}
+			proxy_pass http://{{$data.spec.clusterIP}}:{{ $port }};
 		}
 		{{ end }}
 
@@ -127,7 +128,8 @@ http {
 			proxy_set_header Connection "upgrade";
 			{{ end }}
 
-			proxy_pass http://{{$data.portalIP}}:{{$data.port}};
+      {{ $port := index $data "spec" "ports" 0 "port" }}
+			proxy_pass http://{{$data.spec.clusterIP}}:{{ $port }};
 		}
 		{{ end }}
 
