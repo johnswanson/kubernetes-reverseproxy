@@ -6,6 +6,8 @@ set -eo pipefail
 export ETCD=$CONFD_ETCD_NODE
 
 echo "[nginx] booting container. ETCD: $ETCD"
+echo "[nginx] generating self-signed ssl cert"
+cd /etc/nginx/ssl && /etc/nginx/ssl/gencert.sh $DOMAIN
 
 # Loop until confd has updated the nginx config
 until confd -onetime -node $ETCD -config-file /etc/confd/conf.d/myconfig.toml; do

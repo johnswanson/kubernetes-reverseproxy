@@ -32,8 +32,7 @@ RUN chmod u+x /usr/local/bin/confd && \
 ADD ./src/confd/conf.d/myconfig.toml /etc/confd/conf.d/myconfig.toml
 ADD ./src/confd/templates/nginx.tmpl /etc/confd/templates/nginx.tmpl
 ADD ./src/confd/confd.toml /etc/confd/confd.toml
-ADD ./cert.key /etc/nginx/ssl/cert.key
-ADD ./cert.crt /etc/nginx/ssl/cert.crt
+ADD ./gencert.sh /etc/nginx/ssl/
 
 ADD ./src/boot.sh /opt/boot.sh
 RUN chmod +x /opt/boot.sh
