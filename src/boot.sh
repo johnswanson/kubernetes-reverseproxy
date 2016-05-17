@@ -3,20 +3,29 @@
 # Fail hard and fast
 set -eo pipefail
 
-export ETCD=$CONFD_ETCD_NODE
-
-echo "[nginx] booting container. ETCD: $ETCD"
-echo "[nginx] generating self-signed ssl cert"
-cd /etc/nginx/ssl && /etc/nginx/ssl/gencert.sh $DOMAIN
+CONFD_ETCD_NODE=${CONFD_ETCD_NODE:-}
+CONFD_CLIENT_CERT=${CONFD_CLIENT_CERT:-}
+CONFD_CLIENT_CAKEYS=${CONFD_CLIENT_CAKEYS:-}
+CONFD_CLIENT_KEY=${CONFD_CLIENT_KEY:-}
 
 # Loop until confd has updated the nginx config
-until confd -onetime -node $ETCD -config-file /etc/confd/conf.d/myconfig.toml; do
+until confd -onetime \
+						-node=${CONFD_ETCD_NODE} \
+						-client-key=${CONFD_CLIENT_KEY} \
+						-client-cert=${CONFD_CLIENT_CERT} \
+						-client-ca-keys=${CONFD_CLIENT_CAKEYS} \
+						-config-file /etc/confd/conf.d/myconfig.toml; do
   echo "[nginx] waiting for confd to refresh nginx.conf"
   sleep 5
 done
 
 # Run confd in the background to watch the upstream servers
-confd -interval 10 -node $ETCD -config-file /etc/confd/conf.d/myconfig.toml &
+confd -interval 10 \
+			-node ${CONFD_ETCD_NODE} \
+			-client-key=${CONFD_CLIENT_KEY} \
+			-client-cert=${CONFD_CLIENT_CERT} \
+			-client-ca-keys=${CONFD_CLIENT_CAKEYS} \
+			-config-file /etc/confd/conf.d/myconfig.toml &
 echo "[nginx] confd is listening for changes on etcd..."
 
 # Start nginx
