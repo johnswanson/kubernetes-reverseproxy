@@ -62,6 +62,12 @@ http {
 	{{$p := json $data.metadata.annotations.kubernetesReverseproxy }}
 	{{range $proxy := $p.hosts}}
 	{{if $proxy.host }}
+	{{if $proxy.ssl_redirect}}
+	server {
+	  listen {{$proxy.ssl_redirect_port}};
+		return 301 https://$host$request_uri;
+	}
+	{{end}}
 	server {
 
 		{{if $proxy.port }} listen {{$proxy.port}}; {{end}}
