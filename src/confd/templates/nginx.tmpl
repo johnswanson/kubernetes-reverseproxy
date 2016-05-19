@@ -65,6 +65,7 @@ http {
 	{{if $proxy.ssl_redirect}}
 	server {
 	  listen {{$proxy.ssl_redirect_port}};
+		server_name {{$proxy.host}};
 		return 301 https://$host$request_uri;
 	}
 	{{end}}
