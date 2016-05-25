@@ -75,8 +75,8 @@ http {
 		server_name {{$proxy.host}};
 
 		{{if $proxy.ssl   }}
-		ssl_certificate           /etc/nginx/ssl/{{$proxy.sslCrt}};
-		ssl_certificate_key       /etc/nginx/ssl/{{$proxy.sslKey}};
+		ssl_certificate           {{$proxy.sslCrt}};
+		ssl_certificate_key       {{$proxy.sslKey}};
 
 		ssl on;
 		ssl_session_cache  builtin:1000  shared:SSL:10m;
