@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Fail hard and fast
 set -eo pipefail
@@ -33,6 +33,4 @@ echo "[nginx] confd is listening for changes on etcd..."
 # Start nginx
 echo "[nginx] starting nginx service..."
 
-service nginx start
-
-
+nginx
