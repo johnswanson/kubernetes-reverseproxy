@@ -6,7 +6,7 @@ FROM nginx:1.10.1-alpine
 RUN apk add --no-cache openssl
 
 # setup confd
-ADD https://github.com/kelseyhightower/confd/releases/download/v0.6.3/confd-0.6.3-linux-amd64 /usr/local/bin/confd
+ADD https://github.com/kelseyhightower/confd/releases/download/v0.11.0/confd-0.11.0-linux-amd64 /usr/local/bin/confd
 RUN chmod u+x /usr/local/bin/confd && \
 	mkdir -p /etc/confd/conf.d && \
 	mkdir -p /etc/confd/templates
