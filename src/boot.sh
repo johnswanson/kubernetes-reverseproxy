@@ -3,6 +3,8 @@
 # Fail hard and fast
 set -eo pipefail
 
+openssl dhparam -out /etc/nginx/dhparams.pem 2048
+
 CONFD_ETCD_NODE=${CONFD_ETCD_NODE:-}
 CONFD_CLIENT_CERT=${CONFD_CLIENT_CERT:-}
 CONFD_CLIENT_CAKEYS=${CONFD_CLIENT_CAKEYS:-}
@@ -30,6 +32,7 @@ echo "[nginx] confd is listening for changes on etcd..."
 
 # Start nginx
 echo "[nginx] starting nginx service..."
+
 service nginx start
 
 
