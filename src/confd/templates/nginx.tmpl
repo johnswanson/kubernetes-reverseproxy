@@ -54,8 +54,6 @@ http {
 	# Virtual Host Configs
 	##
 
-	include /etc/nginx/conf.d/*.conf;
-
 	{{range $spec := getvs "/registry/services/specs/*/*"}}
 	{{$data := json $spec}}
 	{{ if $data.metadata.annotations.kubernetesReverseproxy }}
